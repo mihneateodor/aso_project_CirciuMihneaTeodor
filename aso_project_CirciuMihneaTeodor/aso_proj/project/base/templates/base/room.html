@@ -1,0 +1,66 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .room-container{
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+</style>
+
+<div class="room-container">
+
+    <div>
+        <h1> {{room.name}} </h1>
+
+        <p> {{room.description}} </p>
+
+        {% if request.user in participants %}
+
+            <div class="message-wrapper">
+                <h3>Conversation</h3>
+                <hr>
+
+                {% for message in room_messages %}
+                    <div>
+                        <small>@{{message.user}}  {{message.created|timesince}} ago</small>
+                        {% if ".png" in message.body %}
+                            <img src="/media/{{message.body}}"/>
+                        {% else %}
+                            <p>{{message.body}}</p>
+                        {% endif %}
+                        <hr>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% if request.user.is_authenticated %}
+            <div class="comment-form">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="text" name="body" placeholder="Write message here..."/>
+                    <input id="id_docfile" type="file" name="imagefile"/>
+                </form>
+            </div>
+            {% endif %}
+        {% else %}
+
+        <span>You are not a participant of this conversation!</span>
+
+        {% endif %}
+    </div>
+
+    <div>
+        <h3>Participants</h3>
+        <hr>
+
+        {% for user in participants %}
+            <div>
+                <p>@{{user.username}}</p>
+            </div>
+        {% endfor%}
+    </div>
+</div>
+
+{% endblock %}
