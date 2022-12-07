@@ -2,10 +2,16 @@
 
 {% block content %}
 
+<style>
+    .home-container{
+        display: inline-flex;
+    }
+</style>
+
 <h3>HomePage</h3>
 <hr>
 
-<div>
+<div class="home-container">
     <a href="{% url 'create-room' %}">Create room</a>
     <hr>
     <div>

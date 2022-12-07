@@ -80,7 +80,6 @@ def createRoom(request):
             return redirect('home')
 
     context = {'form': form}
-    print(form)
     return render(request, 'base/room_form.html', context)
 
 
